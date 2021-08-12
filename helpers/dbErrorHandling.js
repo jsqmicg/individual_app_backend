@@ -1,0 +1,43 @@
+"use strict"
+
+//Get Unique error field name
+
+const uniqueMessage = error =>{
+    let output;
+    try{
+        let fieldName = error.message.split(".$")[1]
+        field = field.split("dub key")[0]
+        field = field.substring(0, field.lastIndexOf("_"))
+        req.flash("errors", [{
+            message:"An account with this "+field+"already exist"
+        }])
+        output = fieldName.charAt(0).toUpperCase()+fieldName.slice(1)+ " already exist"
+    }catch(err){
+        output = "already exists"
+    }
+    return output
+}
+
+//Get the error message from error object
+
+exports.errorHandler = error=>{
+    let message = "error handler"
+    console.log(error)
+    if (error.code){
+        switch(error.code){
+            case 11000:
+            case 11001:
+                message=uniqueMessage(error)
+                break;
+            default:
+                message : "Something went wrong"
+        }
+    }else {
+        for(let errorName in error.errorors){
+            if(error.errorors[errorName].message){
+                message = error.errorors[errorName].message
+            }
+        }
+    }
+    return message
+}
