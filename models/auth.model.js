@@ -17,17 +17,16 @@ const userSchema = new mongoose.Schema(
     },
     hashed_password: {
       type: String,
-      trim: true,
       required: true,
     },
     salt: String,
     role: {
       type: String,
-      default: "Normal",
+      default: "Subscriber",
     },
     resetPasswordLink: {
       data: String,
-      defalut: "",
+      default: "",
     },
   },
   { timeStamp: true }
@@ -35,7 +34,7 @@ const userSchema = new mongoose.Schema(
 
 userSchema.virtual("password")
   .set(function (password) {
-    this.password = password;
+    this._password = password;
     this.salt = this.makeSalt();
     this.hashed_password = this.encryptPassword(password);
   })
