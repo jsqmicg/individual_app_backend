@@ -29,6 +29,10 @@ const authRouter = require("./routes/auth.route");
 //Use Routes
 app.use("/api/", authRouter);
 
+app.get("/", (req, res) => {
+  res.status(200).json({ message: "connected" });
+});
+
 app.use((req, res, next) => {
   res.status(404).json({
     success: false,
